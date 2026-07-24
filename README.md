@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Student Management System is a RESTful Web API developed using **ASP.NET Core 8**. The application provides CRUD operations for managing students and secures APIs using JWT Authentication. It follows a 3-Tier Architecture with Repository Pattern and includes Global Exception Handling, Serilog Logging, Swagger API Documentation, and Unit Testing.
+The Student Management System is a RESTful Web API developed using **ASP.NET Core 8**. It provides CRUD operations for managing students and secures APIs using **JWT Authentication**. The application follows a **3-Tier Architecture** with the **Repository Pattern** and includes **Global Exception Handling**, **Serilog Logging**, **Swagger API Documentation**, and **Unit Testing**.
 
 ---
 
@@ -10,14 +10,13 @@ Student Management System is a RESTful Web API developed using **ASP.NET Core 8*
 
 - Student CRUD Operations
 - JWT Authentication
-- Authorization using Bearer Token
 - Repository Pattern
 - 3-Tier Architecture
 - Entity Framework Core
 - SQL Server
 - Global Exception Middleware
 - Serilog Logging
-- Swagger Documentation
+- Swagger API Documentation
 - Unit Testing using xUnit & Moq
 
 ---
@@ -29,7 +28,7 @@ Student Management System is a RESTful Web API developed using **ASP.NET Core 8*
 - Entity Framework Core
 - SQL Server
 - JWT Authentication
-- Swagger
+- Swagger (OpenAPI)
 - Serilog
 - xUnit
 - Moq
@@ -42,68 +41,67 @@ Student Management System is a RESTful Web API developed using **ASP.NET Core 8*
 Student Management System Test
 │
 ├── Student Management System
-│     ├── Controllers
-│     ├── Middleware
-│     ├── Program.cs
-│     ├── appsettings.json
-│     └── Properties
+│   ├── Controllers
+│   ├── Middleware
+│   ├── Program.cs
+│   ├── appsettings.json
+│   └── Properties
 │
 ├── StudentManagementBAL
-│     ├── DTOs
-│     ├── Interfaces
-│     └── Services
+│   ├── Interfaces
+│   ├── Services
 │
 ├── StudentManagementDAL
-│     ├── Context
-│     ├── Repository
-│     └── Migrations
+│   ├── Context
+│   ├── Repository
+│   └── Migrations
 │
 ├── StudentManagementDATA
-│     └── Entities
+│   └── Entities
 │
 ├── StudentManagementDTOs
-│     ├── StudentsDTOs
-│     └── AuthDTOs
+│   ├── StudentsDTOs
+│   └── AuthDTOs
 │
 └── StudentManagement.Test
-      ├── StudentServiceTests
-      └── Unit Tests
+    ├── StudentServiceTests
+    └── Unit Tests
 ```
 
 ---
 
 # Architecture
 
-```
+```text
 Client
 
-     │
+   │
 
-     ▼
+   ▼
 
 Student Controller
 
-     │
+   │
 
-     ▼
+   ▼
 
 Student Service (BAL)
 
-     │
+   │
 
-     ▼
+   ▼
 
 Student Repository (DAL)
 
-     │
+   │
 
-     ▼
+   ▼
 
 Entity Framework Core
 
-     │
+   │
 
-     ▼
+   ▼
 
 SQL Server
 ```
@@ -112,11 +110,11 @@ SQL Server
 
 # Authentication
 
-JWT Authentication is implemented.
+JWT Authentication is implemented to secure all Student APIs.
 
 ### Login Credentials
 
-```
+```text
 Username : admin
 Password : admin@123
 ```
@@ -130,8 +128,6 @@ Password : admin@123
 | Method | Endpoint |
 |---------|----------|
 | POST | /api/Auth/login |
-
----
 
 ## Student
 
@@ -152,23 +148,27 @@ Password : admin@123
 | Column | Type |
 |---------|------|
 | Id | int |
-| Name | nvarchar |
-| Email | nvarchar |
+| Name | nvarchar(100) |
+| Email | nvarchar(100) |
 | Age | int |
-| Course | nvarchar |
+| Course | nvarchar(100) |
 | CreatedDate | datetime |
 
 ---
 
-# JWT Authentication
+# Swagger Authentication
 
-1. Execute
+### Step 1
 
-```
+Run the Login API.
+
+```http
 POST /api/Auth/login
 ```
 
-2. Enter
+### Step 2
+
+Request Body
 
 ```json
 {
@@ -177,23 +177,55 @@ POST /api/Auth/login
 }
 ```
 
-3. Copy JWT Token
+### Step 3
 
-4. Click **Authorize** in Swagger
+Copy the generated JWT Token.
 
-5. Enter
+Example Response
 
+```json
+{
+  "success": true,
+  "message": "Login Successful",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "username": "admin",
+    "role": "Admin"
+  }
+}
 ```
-Bearer YOUR_TOKEN
+
+### Step 4
+
+Open **Swagger**.
+
+Click **Authorize**.
+
+### Step 5
+
+**Paste only the JWT Token**.
+
+Example
+
+```text
+eyJhbGciOiJIUzI1NiIs...
 ```
+
+> **Note:** This project uses **HTTP Bearer Authentication**. Swagger automatically adds the `Bearer` prefix to the Authorization header. Do **not** type `Bearer` manually.
+
+### Step 6
+
+Click **Authorize**.
+
+Now all protected Student APIs can be accessed successfully.
 
 ---
 
 # Exception Handling
 
-Global Exception Middleware is implemented.
+A custom Global Exception Middleware is implemented to handle all unhandled exceptions and return a standard JSON response.
 
-Example Response
+Example
 
 ```json
 {
@@ -206,17 +238,17 @@ Example Response
 
 # Logging
 
-Serilog is configured.
+Serilog is configured for structured logging.
 
-Log Location
+Log files are automatically created inside:
 
-```
+```text
 Logs/
 ```
 
-Example
+Example Logs
 
-```
+```text
 Get All Students API called.
 
 Student Added Successfully.
@@ -230,7 +262,7 @@ Student Deleted Successfully.
 
 # Unit Testing
 
-Implemented using
+Unit testing is implemented using:
 
 - xUnit
 - Moq
@@ -264,7 +296,7 @@ Test Cases
 ## Clone Repository
 
 ```bash
-git clone <Repository URL>
+git clone <Repository_URL>
 ```
 
 ## Restore Packages
@@ -273,13 +305,13 @@ git clone <Repository URL>
 dotnet restore
 ```
 
-## Build Project
+## Build Solution
 
 ```bash
 dotnet build
 ```
 
-## Run Project
+## Run Application
 
 ```bash
 dotnet run
@@ -289,11 +321,11 @@ dotnet run
 
 # Database Migration
 
-```
+```powershell
 Add-Migration InitialCreate
 ```
 
-```
+```powershell
 Update-Database
 ```
 
@@ -301,19 +333,19 @@ Update-Database
 
 # Swagger URL
 
-```
+```text
 https://localhost:5001/swagger
 ```
 
-(Port may vary based on your launch settings.)
+> **Note:** The port number may vary depending on your Visual Studio launch settings.
 
 ---
 
 # Future Enhancements
 
-- User Management
-- Password Hashing
 - Docker Support
+- Password Hashing
+- User Management
 - Angular Frontend
 - Role-Based Authorization
 
@@ -323,8 +355,10 @@ https://localhost:5001/swagger
 
 **Pratik Nimbalkar**
 
-Software Engineer (.NET Developer)
+Software Engineer | ASP.NET Core Developer
 
 ---
 
 # Thank You
+
+Thank you for reviewing this project.
