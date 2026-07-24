@@ -1,125 +1,118 @@
-﻿# Student Management System API
+# Student Management System
 
-## Overview
+## Project Overview
 
-Student Management System is a RESTful Web API developed using ASP.NET Core 8.0. It provides CRUD operations for managing students and secures all endpoints using JWT Authentication. The project follows a 3-Tier Architecture with Repository Pattern and includes Global Exception Handling, Serilog Logging, Swagger Documentation, and Unit Testing.
+Student Management System is a RESTful Web API developed using **ASP.NET Core 8**. The application provides CRUD operations for managing students and secures APIs using JWT Authentication. It follows a 3-Tier Architecture with Repository Pattern and includes Global Exception Handling, Serilog Logging, Swagger API Documentation, and Unit Testing.
 
 ---
 
-## Features
+# Features
 
 - Student CRUD Operations
 - JWT Authentication
-- Role-Based Authorization
+- Authorization using Bearer Token
 - Repository Pattern
 - 3-Tier Architecture
 - Entity Framework Core
-- SQL Server Database
-- Global Exception Handling Middleware
+- SQL Server
+- Global Exception Middleware
 - Serilog Logging
-- Swagger API Documentation
-- Unit Testing using xUnit and Moq
+- Swagger Documentation
+- Unit Testing using xUnit & Moq
 
 ---
 
-## Technology Stack
+# Technology Stack
 
 - ASP.NET Core 8 Web API
 - C#
 - Entity Framework Core
 - SQL Server
 - JWT Authentication
-- Serilog
-- Swagger (OpenAPI)
-- xUnit
-- Moq
-
----
-
-## Project Architecture
-
-```
-StudentManagement.API
-│
-├── Controllers
-├── Middleware
-├── Program.cs
-└── appsettings.json
-
-StudentManagement.BAL
-│
-├── DTOs
-├── Interfaces
-└── Services
-
-StudentManagement.DAL
-│
-├── Context
-├── Repository
-└── Migrations
-
-StudentManagement.Models
-│
-└── Entities
-
-StudentManagement.Common
-
-StudentManagement.Tests
-```
-
----
-
-## Project Structure
-
-### API Layer
-
-- Controllers
-- JWT Authentication
 - Swagger
-- Middleware
-- Dependency Injection
-
-### Business Layer
-
-- Business Logic
-- DTOs
-- Services
-- Interfaces
-
-### Data Access Layer
-
-- Entity Framework Core
-- Repository Pattern
-- SQL Server
-
-### Models
-
-- Student Entity
-- User Entity
-
-### Test Layer
-
+- Serilog
 - xUnit
 - Moq
 
 ---
 
-## Database
+# Project Structure
 
-### Student Table
-
-| Column | Type |
-|----------|------|
-| Id | int |
-| Name | nvarchar |
-| Email | nvarchar |
-| Age | int |
-| Course | nvarchar |
-| CreatedDate | datetime |
+```text
+Student Management System Test
+│
+├── Student Management System
+│     ├── Controllers
+│     ├── Middleware
+│     ├── Program.cs
+│     ├── appsettings.json
+│     └── Properties
+│
+├── StudentManagementBAL
+│     ├── DTOs
+│     ├── Interfaces
+│     └── Services
+│
+├── StudentManagementDAL
+│     ├── Context
+│     ├── Repository
+│     └── Migrations
+│
+├── StudentManagementDATA
+│     └── Entities
+│
+├── StudentManagementDTOs
+│     ├── StudentsDTOs
+│     └── AuthDTOs
+│
+└── StudentManagement.Test
+      ├── StudentServiceTests
+      └── Unit Tests
+```
 
 ---
 
-## Authentication
+# Architecture
+
+```
+Client
+
+     │
+
+     ▼
+
+Student Controller
+
+     │
+
+     ▼
+
+Student Service (BAL)
+
+     │
+
+     ▼
+
+Student Repository (DAL)
+
+     │
+
+     ▼
+
+Entity Framework Core
+
+     │
+
+     ▼
+
+SQL Server
+```
+
+---
+
+# Authentication
+
+JWT Authentication is implemented.
 
 ### Login Credentials
 
@@ -130,18 +123,20 @@ Password : admin@123
 
 ---
 
-## API Endpoints
+# API Endpoints
 
-### Authentication
+## Authentication
 
 | Method | Endpoint |
-|----------|------------------|
+|---------|----------|
 | POST | /api/Auth/login |
 
-### Student
+---
+
+## Student
 
 | Method | Endpoint |
-|----------|------------------------|
+|---------|----------|
 | GET | /api/Student |
 | GET | /api/Student/{id} |
 | POST | /api/Student |
@@ -150,37 +145,55 @@ Password : admin@123
 
 ---
 
-## Swagger
+# Database
 
-Run the application and open:
+## Student Table
 
-```
-https://localhost:xxxx/swagger
-```
+| Column | Type |
+|---------|------|
+| Id | int |
+| Name | nvarchar |
+| Email | nvarchar |
+| Age | int |
+| Course | nvarchar |
+| CreatedDate | datetime |
 
-Login using
+---
+
+# JWT Authentication
+
+1. Execute
 
 ```
 POST /api/Auth/login
 ```
 
-Copy the generated JWT Token.
+2. Enter
 
-Click **Authorize** in Swagger and enter:
+```json
+{
+  "username": "admin",
+  "password": "admin@123"
+}
+```
+
+3. Copy JWT Token
+
+4. Click **Authorize** in Swagger
+
+5. Enter
 
 ```
-Bearer <your_token>
+Bearer YOUR_TOKEN
 ```
-
-Now all protected Student APIs can be accessed.
 
 ---
 
-## Exception Handling
+# Exception Handling
 
-The application uses custom Global Exception Middleware to return standardized JSON error responses.
+Global Exception Middleware is implemented.
 
-Example:
+Example Response
 
 ```json
 {
@@ -191,34 +204,38 @@ Example:
 
 ---
 
-## Logging
+# Logging
 
-Serilog is configured for structured logging.
+Serilog is configured.
 
-Logs are stored inside:
+Log Location
 
 ```
 Logs/
 ```
 
-Example log:
+Example
 
 ```
 Get All Students API called.
+
 Student Added Successfully.
+
+Student Updated Successfully.
+
 Student Deleted Successfully.
 ```
 
 ---
 
-## Unit Testing
+# Unit Testing
 
-Unit tests are implemented using:
+Implemented using
 
 - xUnit
 - Moq
 
-Covered scenarios:
+Test Cases
 
 - Get All Students
 - Get Student By Id
@@ -228,29 +245,41 @@ Covered scenarios:
 
 ---
 
-## Clone Repository
+# NuGet Packages
 
-```bash
-git clone <repository-url>
-```
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Tools
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- Swashbuckle.AspNetCore
+- Serilog.AspNetCore
+- Serilog.Sinks.Console
+- Serilog.Sinks.File
+- xUnit
+- Moq
 
 ---
 
-## Run Project
+# How to Run
 
-Restore packages
+## Clone Repository
+
+```bash
+git clone <Repository URL>
+```
+
+## Restore Packages
 
 ```bash
 dotnet restore
 ```
 
-Build project
+## Build Project
 
 ```bash
 dotnet build
 ```
 
-Run project
+## Run Project
 
 ```bash
 dotnet run
@@ -258,48 +287,39 @@ dotnet run
 
 ---
 
-## Database Migration
+# Database Migration
 
-Add Migration
-
-```powershell
+```
 Add-Migration InitialCreate
 ```
 
-Update Database
-
-```powershell
+```
 Update-Database
 ```
 
 ---
 
-## NuGet Packages
+# Swagger URL
 
-- Microsoft.EntityFrameworkCore.SqlServer
-- Microsoft.EntityFrameworkCore.Tools
-- Microsoft.AspNetCore.Authentication.JwtBearer
-- Swashbuckle.AspNetCore
-- Serilog.AspNetCore
-- Serilog.Sinks.File
-- Serilog.Sinks.Console
-- xUnit
-- Moq
+```
+https://localhost:5001/swagger
+```
+
+(Port may vary based on your launch settings.)
 
 ---
 
-## Future Enhancements
+# Future Enhancements
 
-- Docker Support
 - User Management
-- Refresh Token
-- Role-Based Authorization
 - Password Hashing
+- Docker Support
 - Angular Frontend
+- Role-Based Authorization
 
 ---
 
-## Author
+# Author
 
 **Pratik Nimbalkar**
 
@@ -307,4 +327,4 @@ Software Engineer (.NET Developer)
 
 ---
 
-## Thank You
+# Thank You
